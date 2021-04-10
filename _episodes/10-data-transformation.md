@@ -6,8 +6,9 @@ questions:
 - "How do I use transformations to programmatically edit my data?"
 - "How do I transform the various data types?"
 objectives:
-- "Introduce data formats"
-- "Introduce Boolean values and how to run transformations based on them"
+- "Understand data types in OpenRefine"
+- "Transform dates for further analysis"
+- "Create and run transformations based on Boolean Values"
 keypoints:
 - "You can alter data in OpenRefine based on specific instructions"
 - "You can expand the data editing functions that are built-in into OpenRefine by building your own"
@@ -35,7 +36,7 @@ So far we've been looking only at 'String' type data. Much of the time it is pos
 >2. In the 'Expression' box type the GREL expression ```value.toDate("dd/MM/yyyy")``` and press OK.
 >3. Note how the values are now displayed in green and follow a standard convention for their display format (ISO 8601) - this indicates they are now stored as date data types in OpenRefine. We can now carry out functions that are specific to Dates
 >4. On the Date column dropdown select ```Edit column->Add column based on this column```. Using this function you can create a new column, while preserving the old column
->5. In the 'New column name' type "Formatted Date"
+>5. In the 'New column name' type "Formatted-Date"
 >6. In the 'Expression' box type the GREL expression ```value.toString("dd MMMM yyyy")```
 {: .checklist}
 

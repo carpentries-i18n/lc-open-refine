@@ -7,10 +7,10 @@ questions:
 - "How do I reconcile my data by comparing it to authoritative datasets"
 - "How do I install extensions for OpenRefine"
 objectives:
-- "Introduce how to use URLs to fetch data from the web based on what's in an OpenRefine project"
-- "Introduce how to parse JSON data returned by web services"
-- "Introduce how to use Reconciliation services"
-- "Introduce OpenRefine extensions"
+- "Use URLs to fetch data from the web based on columns in an OpenRefine project"
+- "Add columns to parse JSON data returned by web services"
+- "Understand how Reconciliation services are used to validate data"
+- "Add functionality using OpenRefine extensions"
 keypoints:
 - "OpenRefine can look up custom URLs to fetch data based on what's in an OpenRefine project"
 - "Such API calls can be custom built, or one can use existing Reconciliation services to enrich data"
@@ -46,28 +46,33 @@ The next exercise demonstrates this two stage process in full.
 >    * Facet by Star
 >    * Choose the single row
 >* In the ISSN column use the dropdown menu to choose 'Edit column->Add column by fetching URLs'
->* Give the column a name e.g. "Journal details"
+>* Give the column a name e.g. "Journal-Details"
 >* In the expression box you need to write some GREL where the output of the expression is a URL which can be used to retrieve data (the format of the data could be HTML, XML, JSON, or some other text format)
 >
 >In this case we are going to use the CrossRef API: [https://github.com/CrossRef/rest-api-doc)](https://github.com/CrossRef/rest-api-doc). Read more about the CrossRef service: [http://www.crossref.org](http://www.crossref.org). Note that API providers may impose rate limits or have other requirements for using their data, so it's important to check the site's documentation. To comply with API rate limits, use the Throttle Delay setting to specify the number of milliseconds between URL requests. CrossRef, for instance, [asks users](https://github.com/CrossRef/rest-api-doc#etiquette) to "specify a User-Agent header that properly identifies your script or tool and that provides a means of contacting you via email using 'mailto:'." User-agent headers provide administrators with user information that facilitates better administration and moderation of the API, and it is generally good etiquette to include a header with any API request.
 >
 >To edit your User-Agent header:
->* Click 'Show' (next to 'HTTP headers to be used when fetching URLs'). Note that OpenRefine has already populated the 'User-Agent' field with information about the version of OpenRefine you are using; it should look similar to ```OpenRefine 3.2 [55c921a]``` but with some variation.
->* At the end of the existing text, add ```; mailto:address@library.edu```, using your own email address. The full User-Agent field should now be similar to ```OpenRefine 3.2 [55c921a]; mailto:address@library.edu``` but reflect your version information and email address.
+>* Click 'Show' (next to 'HTTP headers to be used when fetching URLs'). Note that OpenRefine has already populated the 'User-Agent' field with information about the version of OpenRefine you are using; it should look similar to ```OpenRefine 3.4.1 [437dc4d]``` (the information following ```OpenRefine``` will depend on the version of OpenRefine you are using).
+>* At the end of the existing text, add ```; mailto:address@library.edu```, using your own email address. The full User-Agent field should now be similar to ```OpenRefine 3.4.1 [437dc4d]; mailto:address@library.edu``` but reflect your version information and email address.
 >
 >The syntax for requesting journal information from CrossRef is ```http://api.crossref.org/journals/{ISSN}``` where {ISSN} is replaced with the ISSN of the journal
 >
 >* In the expression box type the GREL ```"https://api.crossref.org/journals/"+value```
+> 
+>At this point, your screen should be similar to this:
+>![Add column by fetching URLs screen capture](../assets/img/openrefine_add_columns_by_url.png)
+>
 >* Click 'OK'
+>
 >
 >You should see a message at the top on the OpenRefine screen indicating it is fetching some data, and how far it has got. Wait for this to complete. Fetching data for a single row should take only ten seconds or so, but fetching data for all rows will take longer. You can speed this up by modifying the "Throttle Delay" setting in the 'Add column by fetching URLs' dialog which controls the delay between each URL request made by OpenRefine. This is defaulted to a rather large 5000 milliseconds (5 seconds).
 >
 >At this point you should have a new cell containing a long text string in a format called 'JSON' (this stands for JavaScript Object Notation, although very rarely spelt out in full).
 >
->OpenRefine has a function for extracting data from JSON (sometimes referred to as 'parsing' the JSON). The 'parseJson' function is explained in more detail at [https://github.com/OpenRefine/OpenRefine/wiki/GREL-Other-Functions](https://github.com/OpenRefine/OpenRefine/wiki/GREL-Other-Functions).
+>OpenRefine has a function for extracting data from JSON (sometimes referred to as 'parsing' the JSON). The 'parseJson' function is explained in more detail at [https://docs.openrefine.org/manual/grelfunctions/#format-based-functions-json-html-xml](https://docs.openrefine.org/manual/grelfunctions/#format-based-functions-json-html-xml).
 >
 >* In the new column you've just added use the dropdown menu to access 'Edit column->Add column based on this column'
->* Add a name for the new column e.g. "Journal Title"
+>* Add a name for the new column e.g. "Journal-Title"
 >* In the Expression box type the GREL ```value.parseJson().message.title```
 >* You should see in the Preview the Journal title displays
 >
@@ -75,11 +80,11 @@ The next exercise demonstrates this two stage process in full.
 {: .challenge}
 
 ## Reconciliation services
-Reconciliation services allow you to lookup terms from your data in OpenRefine against external services, and use values from the external services in your data. The official wiki provides [detailed information about this feature](https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation).
+Reconciliation services allow you to lookup terms from your data in OpenRefine against external services, and use values from the external services in your data. The official User Manual provides [detailed information about the reconciliation feature](https://docs.openrefine.org/manual/reconciling).
 
 Reconciliation services can be more sophisticated and often quicker than using the method described above to retrieve data from a URL. However, to use the ‘Reconciliation’ function in OpenRefine requires the external resource to support the necessary service for OpenRefine to work with, which means unless the service you wish to use supports such a service you cannot use the ‘Reconciliation’ approach.
 
-There are a few services where you can find an OpenRefine Reconciliation option available. For example WikiData has a reconciliation service at [https://tools.wmflabs.org/openrefine-wikidata/](https://tools.wmflabs.org/openrefine-wikidata/).
+There are a few services where you can find an OpenRefine Reconciliation option available. For example WikiData has a reconciliation service at [https://wikidata.reconci.link/](https://wikidata.reconci.link/).
 
 In other cases people have built reconciliation applications for a specific service which you can download and run yourself. These vary in how they work, and what it takes to run them locally. For example there are multiple reconciliation applications for VIAF. Even for the same service (e.g. VIAF) different reconciliation applications (written by different people)  can work in different ways and potentially give different results - so caveat emptor!
 
@@ -90,9 +95,9 @@ Other extensions are available to do reconciliation against local data such as c
 For more information on using Reconciliation services see [https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API](https://github.com/OpenRefine/OpenRefine/wiki/Reconciliation-Service-API)
 
 >## Reconcile Publisher names with VIAF IDs
->In this exercise you are going to use the VIAF Reconciliation service written by [Jeff Chiu](https://twitter.com/absolutelyjeff). Jeff offers two ways of using the reconciliation service - either via a public service he runs at [http://refine.codefork.com/](http://refine.codefork.com/), or by installing and running the service locally using the instructions at [https://github.com/codeforkjeff/refine_viaf](https://github.com/codeforkjeff/refine_viaf).
+>In this exercise you are going to use the VIAF Reconciliation service written by [Jeff Chiu](https://twitter.com/absolutelyjeff). Jeff offers two ways of using the reconciliation service - either via a public service he runs at [http://refine.codefork.com/](http://refine.codefork.com/), or by installing and running the service locally using the instructions at [https://github.com/codeforkjeff/conciliator](https://github.com/codeforkjeff/conciliator).
 >
->If you are going to do a lot of reconciliation, please install and run your own local reconciliation service - the instructions at [https://github.com/codeforkjeff/refine_viaf](https://github.com/codeforkjeff/refine_viaf) make this reasonably straightforward.
+>If you are going to do a lot of reconciliation, please install and run your own local reconciliation service - the instructions at [https://github.com/codeforkjeff/conciliator](https://github.com/codeforkjeff/conciliator#running-conciliator-on-your-own-computer) make this reasonably straightforward.
 >
 >Once you have chosen which service you are going to use:
 >
@@ -138,7 +143,7 @@ For more information on using Reconciliation services see [https://github.com/Op
 >There are two things that reconciliation can do for you. Firstly it gets a standard form of the name or label for the entity. Secondly it gets an ID for the entity - in this case a VIAF id. This is hidden in the default view, but can be extracted:
 >
 >* In the Publisher column use the dropdown menu to choose 'Edit column->Add column based on this column...'
->* Give the column the name 'VIAF ID'
+>* Give the column the name 'VIAF-ID'
 >* In the GREL expression box type ```cell.recon.match.id```
 >* This will create a new column that contains the VIAF ID for the matched entity
 {: .challenge}

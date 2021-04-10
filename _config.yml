@@ -13,6 +13,9 @@ carpentry: lc
 remote_theme: carpentries-i18n/carp-theme # Theme URL
 title: 'Library Carpentry: OpenRefine'
 
+# Life cycle stage of the lesson
+# possible values: "pre-alpha", "alpha", "beta", "stable"
+life_cycle: "stable"
 
 #------------------------------------------------------------
 # Generic settings (should not need to change).

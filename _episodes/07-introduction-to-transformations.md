@@ -25,7 +25,7 @@ However, sometimes there will be changes you want to make to the data that canno
 
 To support this type of activity OpenRefine supports 'Transformations' which are ways of manipulating data in columns. Transformations are normally written in a special language called 'GREL' (General Refine Expression Language). To some extent GREL expressions are similar to Excel Formula, although they tend to focus on text manipulations rather than numeric functions.
 
-Full documentation for the GREL is available at [https://github.com/OpenRefine/OpenRefine/wiki/General-Refine-Expression-Language](https://github.com/OpenRefine/OpenRefine/wiki/General-Refine-Expression-Language). This tutorial covers only a small subset of the commands available.
+Full documentation for the GREL is available at [https://docs.openrefine.org/manual/grelfunctions](https://docs.openrefine.org/manual/grelfunctions). This tutorial covers only a small subset of the commands available.
 
 ### Common transformations
 Some transformations are used regularly and are accessible directly through menu options, without having to type them directly.
@@ -41,7 +41,7 @@ Trim leading and trailing whitespace | Removes any 'whitespace' characters (e.g.
 
 >## Correct Publisher data
 >1. Create a text facet on the Publisher column
->2. Note that in the values there are two that look identical - why does this value appear twice?
->3. On the publisher column use the dropdown menu to select ```Edit cells->Common transforms->Trim leading and trailing whitespace```
+>2. Note that in the values there are two that look almost identical - why do these two values appear separately rather than as a single value?
+>3. On the publisher column use the dropdown menu to select ```Edit cells->Common transforms->Collapse consecutive whitespace```
 >4. Look at the publisher facet now - has it changed? (if it hasn't changed try clicking the ```Refresh``` option to make sure it updates)
 {: .checklist}
